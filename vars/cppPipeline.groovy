@@ -1,14 +1,17 @@
-def call(Map map) {
-  def targets = map.targets
-  label 'linux'
-  stage('build') {
-    for (target in targets) {
-      buildCpp(target: target)
-    }
-  }
-  stage('test') {
-    for (target in targets) {
-      testCpp(target: target)
+def call(Map args = [:]) {
+  node('master') {
+    parallelLinux { platform ->
+      stage("build $platform") {
+        echo "building in $platform"
+        sh "echo building in \$BUILD_PLATFORM"
+      }
+      stage("test $platform") {
+        echo "testing in $platform"
+        sh """
+          set -e
+          test "\$BUILD_PLATFORM" = "$platform"
+        """
+      }
     }
   }
 }
