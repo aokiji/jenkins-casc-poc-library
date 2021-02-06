@@ -8,9 +8,15 @@ def call(Map args = [:]) {
       stage("test $platform") {
         echo "testing in $platform"
         sh """
-          set -e
           test "\$BUILD_PLATFORM" = "$platform"
         """
+        sh(
+          printCommands: true,
+          script: """
+            test HELLO = HELLO
+            echo goodbye
+          """
+        )
       }
     }
   }
