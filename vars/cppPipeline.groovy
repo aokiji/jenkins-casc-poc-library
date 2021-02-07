@@ -16,9 +16,10 @@ def call(Map args = [:]) {
       stage("build $platform") {
         buildCppTarget(platform: platform, target: 'hello')
         buildCppTarget(platform: platform, target: 'good_bye')
+        buildCppTarget(platform: platform, target: 'utils_test')
       }
       stage("test $platform") {
-        testCppTarget(platform: platform, target: 'target1')
+        testCppTarget(platform: platform, target: 'utils_test')
         sh """
             test "\$(./build/hello)" = "Hello World!"
             test "\$(./build/good_bye)" = "Good Bye!"
