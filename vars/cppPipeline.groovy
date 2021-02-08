@@ -25,6 +25,24 @@ def call(Map args = [:]) {
             test "\$(./build/good_bye)" = "Good Bye!"
           """
       }
+      stage("deploy $platform") {
+        rtUpload(
+          serverId: 'artifactory',
+          spec: '''{
+            "files": [
+              {
+                "pattern": "build/hello",
+                "target": "example-repo-local/BUILD_${BUILD_NUMBER}/${BUILD_PLATFORM}/"
+              },
+              {
+                "pattern": "build/good_bye",
+                "target": "example-repo-local/BUILD_${BUILD_NUMBER}/${BUILD_PLATFORM}/"
+              }
+            ]
+          }'''
+        )
+        rtPublishBuildInfo(serverId: 'artifactory')
+      }
     }
   }
 }
