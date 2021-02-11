@@ -25,5 +25,7 @@ def call(Map args = [:]) {
         deployCppTarget(targets: ['hello', 'good_bye'])
       }
     }
+
+    notifyCppBuildResults()
   }
 }
