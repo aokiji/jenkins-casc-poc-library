@@ -1,17 +1,8 @@
 def call(Map args = [:]) {
   node('master') {
-    def branches = args.get('branches', '*/master')
-
     parallelLinux { platform ->
       stage("checkout $platform") {
-        checkout([
-          $class: 'GitSCM',
-          branches: [[name: branches]],
-          doGenerateSubmoduleConfigurations: false,
-          extensions: [],
-          submoduleCfg: [],
-          userRemoteConfigs: [[url: 'https://github.com/aokiji/jenkins-casc-poc-project']]
-        ])
+        checkout(scm)
       }
       stage("build $platform") {
         buildCppTarget(platform: platform, target: 'hello')
