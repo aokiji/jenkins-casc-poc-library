@@ -10,7 +10,7 @@ def call(Map args = [:]) {
 
   stage("test $platform") {
     for (target in targets) {
-      buildCppTarget(platform: platform, target: target.name)
+      testCppTarget(platform: platform, target: target.name)
     }
   }
 }
