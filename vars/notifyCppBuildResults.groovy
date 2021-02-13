@@ -1,4 +1,5 @@
 def call(Map args = [:]) {
+  echo "Checking if build failed ${currentBuild.result}"
   if (currentBuild.result == 'FAILURE') {
     emailext body: """
       <html>
